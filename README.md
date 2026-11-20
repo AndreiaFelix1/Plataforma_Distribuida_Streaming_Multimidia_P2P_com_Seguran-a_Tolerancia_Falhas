@@ -76,15 +76,6 @@ A versão anterior já contém TLS opcional nos sockets de controle e P2P. Ative
 
 Registre: tempo até iniciar a reprodução, tempo de download de cada segmento, throughput, número de falhas/requisições repetidas, qualidade/resolução escolhida e tempo de rebuffering. Com TCP, a perda de segmentos IP é normalmente recuperada pelo transporte; para medir perda de rede use `tc`, `ping` ou `iperf3` e diferencie essa métrica de falhas de blocos na aplicação.
 
-## 9. Limitações e honestidade experimental
-
-- O HLS ABR escolhe a resolução no player; o protocolo P2P ainda transfere arquivos/segmentos completos via TCP.
-- A descoberta de fontes é centralizada no servidor de bootstrap; os bytes de mídia são transferidos diretamente entre peers.
-- Um segmento solicitado pela primeira vez é baixado integralmente antes de ser servido ao player.
-- O modo HLS P2P requer empacotar as playlists/segmentos em `media/` no peer fornecedor.
-- Multicast permanece um mecanismo auxiliar de descoberta local IPv4; não substitui o servidor de controle.
-- Pseudônimos não significam anonimato de rede.
-
 ### Atalho: gerar e publicar HLS P2P em um comando
 
 Com o vídeo em `media/`, execute:
@@ -96,7 +87,7 @@ Com o vídeo em `media/`, execute:
 O script executa o FFmpeg, cria as variantes e empacota playlists/segmentos com o prefixo esperado pela interface. O peer fornecedor deve estar executando para anunciar os arquivos no heartbeat.
 
 
-## 10. Itens adicionais desta entrega
+## 9. Itens adicionais desta entrega
 
 - **IPv6:** os sockets de controle e P2P aceitam endereços IPv6; a interface HTTP também pode escutar em IPv6 usando `--web-host ::`.
 - **Multicast:** `multicast_discovery.py` oferece descoberta auxiliar em rede local IPv4 (não substitui o bootstrap).
@@ -106,7 +97,7 @@ O script executa o FFmpeg, cria as variantes e empacota playlists/segmentos com 
 - **Especificação formal:** consulte `PROTOCOLO.md`.
 - **Rastreabilidade:** consulte `MATRIZ_REQUISITOS.md`.
 
-## 11. Testes locais automatizados
+## 10. Testes locais automatizados
 
 ```bash
 python3 -m unittest -v test_protocol.py
@@ -114,12 +105,3 @@ python3 -m py_compile protocol.py server.py peer.py webapp.py
 ```
 
 Os testes automatizados verificam enquadramento de mensagens, HMAC e SHA-256. Eles não substituem os testes de integração com vários processos e máquinas.
-
-## 12. Sobre anonimato avançado
-
-O enunciado cita anonimato como funcionalidade extra opcional. Esta implementação **não implementa anonimato avançado**: identificadores pseudônimos não ocultam endereços IP nem o padrão de tráfego. Uma implementação real exigiria relays/múltiplos saltos e um modelo de ameaça próprio. Essa limitação está registrada na matriz de requisitos; não apresente pseudônimos como anonimato.
-
-
-## 13. Relay de privacidade (anonimização parcial)
-
-Para fazer o fornecedor observar o relay, e não o endereço IP do consumidor, consulte `ANONIMATO_RELAY.md`. O recurso é opcional e deve ser iniciado apenas no consumidor. Ele mascara o IP do consumidor perante o fornecedor no canal de dados; não é anonimato avançado completo e não oculta o IP do fornecedor do consumidor nem do servidor central.
