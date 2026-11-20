@@ -1,0 +1,2 @@
+protocolo,bytes,tempo_s,throughput_KiB_s,latencia_media_ms,blocos,retransmissoes
+TCP,5242880,0.818735,6253.55,0.15,5243,0

@@ -1,0 +1,6 @@
+certs/*.key
+certs/*.crt
+.env
+__pycache__/
+*.pyc
+resultados_transporte.csv

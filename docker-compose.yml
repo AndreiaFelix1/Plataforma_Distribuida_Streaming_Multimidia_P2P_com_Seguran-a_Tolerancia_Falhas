@@ -1,0 +1,38 @@
+services:
+  control:
+    build: .
+    command: python3 src/server.py --host 0.0.0.0 --port 9000
+    environment:
+      STREAM_SECRET: ${STREAM_SECRET:?Defina STREAM_SECRET no .env}
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./media:/app/media
+
+  peer1:
+    build: .
+    command: python3 src/webapp.py --server control --advertise-host peer1 --listen-port 9101 --web-port 8081
+    environment:
+      STREAM_SECRET: ${STREAM_SECRET:?Defina STREAM_SECRET no .env}
+    depends_on:
+      - control
+    ports:
+      - "8081:8081"
+      - "9101:9101"
+    volumes:
+      - ./media:/app/media
+      - ./downloads/peer1:/app/downloads
+
+  peer2:
+    build: .
+    command: python3 src/webapp.py --server control --advertise-host peer2 --listen-port 9102 --web-port 8082
+    environment:
+      STREAM_SECRET: ${STREAM_SECRET:?Defina STREAM_SECRET no .env}
+    depends_on:
+      - control
+    ports:
+      - "8082:8082"
+      - "9102:9102"
+    volumes:
+      - ./media:/app/media
+      - ./downloads/peer2:/app/downloads

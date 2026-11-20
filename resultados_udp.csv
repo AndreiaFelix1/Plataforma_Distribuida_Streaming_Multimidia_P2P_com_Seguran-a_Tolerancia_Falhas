@@ -1,0 +1,2 @@
+protocolo,bytes,tempo_s,throughput_KiB_s,latencia_media_ms,blocos,retransmissoes
+UDP-stop-and-wait,5242880,0.716302,7147.819,0.137,5243,0
