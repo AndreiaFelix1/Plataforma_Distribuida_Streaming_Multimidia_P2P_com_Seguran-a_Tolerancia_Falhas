@@ -2,10 +2,6 @@
 
 Plataforma acadêmica de streaming distribuído com servidor de controle, peers TCP, download progressivo, HLS adaptativo e distribuição P2P de playlists/segmentos.
 
-## Novidade principal: HLS distribuído via P2P
-
-Nesta versão, as playlists e os segmentos HLS passam a ser arquivos individuais compartilháveis. Quando o player solicita a playlist master ou um segmento que ainda não existe localmente, o peer consumidor descobre fontes no servidor central e baixa esse recurso via P2P, validando SHA-256 e HMAC. Depois, o recurso fica disponível localmente e pode ser compartilhado por esse peer com outros participantes.
-
 ## 1. Requisitos
 
 - Python 3.9+
